@@ -11,56 +11,71 @@
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Add mongo package
+```php
+#Add library
+sudo pecl install mongodb
+#php ini file
+extension="mongodb.so"
+#add package 
+composer require mongodb/laravel-mongodb
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```
+Add configuration
+ config\database.php file under the “connections” 
 
-## Learning Laravel
+```php
+'connections' => [
+  'mongodb' => [
+        'driver' => 'mongodb',
+        'dsn' => env('DB_URI', 'mongodb+srv://username:password@<atlas-cluster-uri>/myappdb?retryWrites=true&w=majority'),
+        'database' => 'myappdb',
+],
+```
+Set the default database connection name in config\database.php:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```php
+'default' => env('DB_CONNECTION', 'mongodb'),
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Add the following to the provider’s section in your app.php file:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```php
+'providers' => [
 
-## Laravel Sponsors
+/*
+* Laravel Framework Service Providers...
+*/
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+MongoDB\Laravel\MongoDBServiceProvider::class,
+```
+Now Migrations
 
-### Premium Partners
+```php
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+//Replace the use Illuminate\Database\Schema\Blueprint import with 
+use MongoDB\Laravel\Schema\Blueprint
 
-## Contributing
+#inside the class define both in model and migration file
+    protected $connection = 'mongodb';
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+### Use Mongo for Authentication
 
-## Code of Conduct
+See The link for [laravel 11 ](https://laravel.com/docs/11.x/authentication#the-user-provider-contract)
+```php
+//Auth scaffold
+ composer require laravel/ui
+//Generate Basic Scaffolding & with Authentication Using Bootstrap
+$ php artisan ui bootstrap $ php artisan ui bootstrap --auth
+```
+#### also in the service provider include
+```php
+MongoDB\Laravel\Auth\PasswordResetServiceProvider::class,
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#In the User Model
+use MongoDB\Laravel\Auth\User as Authenticatable;
+use MongoDB\Laravel\Eloquent\Model;
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```

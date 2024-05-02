@@ -16,7 +16,10 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    #'default' => env('DB_CONNECTION', 'sqlite'),
+
+    'default' => env('DB_CONNECTION', 'mongodb'),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -30,6 +33,12 @@ return [
     */
 
     'connections' => [
+
+            'mongodb' => [
+                  'driver' => 'mongodb',
+                  'dsn' => env('DB_URI', 'mongodb://root:root001@localhost:27017'),
+                  'database' => 'lara_vue',
+          ],
 
         'sqlite' => [
             'driver' => 'sqlite',
