@@ -1,4 +1,5 @@
 <?php
+    declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 //use Illuminate\Database\Schema\Blueprint;
@@ -7,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    protected $connection = 'mongodb';
     /**
      * Run the migrations.
      */
@@ -14,11 +16,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $collection) {
             // $collection->id();
-            $collection->string('name');
-            $collection->string('email')->unique();
-            $collection->timestamp('email_verified_at')->nullable();
-            $collection->string('password');
-            $collection->rememberToken();
+            // $collection->string('name');
+            // $collection->string('email')->unique();
+            // $collection->timestamp('email_verified_at')->nullable();
+            // $collection->string('password');
+            // $collection->rememberToken();
             $collection->timestamps();
         });
 

@@ -125,27 +125,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-     /*
-    |--------------------------------------------------------------------------
-    | Autoloaded Service Providers I ADDED THIS
-    |--------------------------------------------------------------------------
-    |
-    | The service providers listed here will be automatically loaded on the
-    | request to your application. Feel free to add your own services to
-    | this array to grant expanded functionality to your applications.
-    |
-    */
 
-    'providers' => ServiceProvider::defaultProviders()->merge([
-   
-
-        /*
-         * Application Service Providers...
-         */
-        
-        MongoDB\Laravel\MongoDBServiceProvider::class,
-        MongoDB\Laravel\Auth\PasswordResetServiceProvider::class
-    ])->toArray(),
 
 
 ];

@@ -79,3 +79,21 @@ use MongoDB\Laravel\Eloquent\Model;
 
 
 ```
+in the Auth.ph under guards add 
+
+```php
+ //for mongodb
+         'mongodb' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+```
+Issues with Error 419 On registration Laravel 11
+[solution see](https://www.youtube.com/watch?v=9BVji8lWqbk)
+
+```php 
+
+SESSION_DRIVER=database #change to 
+
+SESSION_DRIVER=file
+```
